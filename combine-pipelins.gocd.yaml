@@ -1,0 +1,301 @@
+format_version: 10
+pipelines:
+  - Codebase:
+    group: Combination-Pipelines-Example
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-acb0cc0:
+        git: https://github.com/NoaLand/gocd-example.git
+        shallow_clone: false
+        auto_update: true
+        branch: master
+    stages:
+    - pull-code:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          pull-code:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+  - Publisher-1:
+    group: Combination-Pipelines-Example
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: 0
+    materials:
+      Codebase:
+        ignore_for_scheduling: false
+        pipeline: Codebase
+        stage: pull-code
+    stages:
+    - build:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          build:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - static-analysis:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          static-analysis:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - run-unit-tests:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-unit-tests:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - run-integration-tests:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-integration-tests:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+  - Subscriber-1:
+    group: Combination-Pipelines-Example
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: 0
+    materials:
+      Codebase:
+        ignore_for_scheduling: false
+        pipeline: Codebase
+        stage: pull-code
+    stages:
+    - build:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          build:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - static-analysis:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          static-analysis:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - run-unit-tests:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-unit-tests:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - run-integration-tests:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-integration-tests:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+  - Subscriber-2:
+    group: Combination-Pipelines-Example
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: 0
+    materials:
+      Codebase:
+        ignore_for_scheduling: false
+        pipeline: Codebase
+        stage: pull-code
+    stages:
+    - build:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          build:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - static-analysis:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          static-analysis:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - run-unit-tests:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-unit-tests:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - run-integration-tests:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-integration-tests:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+  - SIT-for-Feature-A:
+    group: Combination-Pipelines-Example
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: 0
+    materials:
+      - Publisher-1:
+        ignore_for_scheduling: false
+        pipeline: Publisher-1
+        stage: run-integration-tests
+      - Subscriber-1:
+        ignore_for_scheduling: false
+        pipeline: Subscriber-1
+        stage: run-integration-tests
+    stages:
+    - deploy-to-Test-Env:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          deploy-to-Test-Env:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+    - run-SIT-tests:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-SIT-tests:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
+  - To-Staging:
+    group: Combination-Pipelines-Example
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: 1
+    materials:
+      - SIT-for-Feature-A:
+        ignore_for_scheduling: false
+        pipeline: SIT-for-Feature-A
+        stage: run-SIT-tests
+      - Subscriber-2:
+        ignore_for_scheduling: false
+        pipeline: Subscriber-2
+        stage: run-integration-tests
+    stages:
+    - deploy-to-Staging:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          deploy-to-Staging:
+            timeout: 0
+            tasks:
+            - exec:
+                command: echo
+                run_if: passed
