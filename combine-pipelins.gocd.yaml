@@ -1,6 +1,7 @@
 format_version: 10
+
 pipelines:
-  - Codebase:
+  Codebase:
     group: Combination-Pipelines-Example
     label_template: ${COUNT}
     lock_behavior: none
@@ -12,7 +13,8 @@ pipelines:
         auto_update: true
         branch: master
     stages:
-    - pull-code:
+      # Stage: pull-code
+      pull-code:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -23,10 +25,11 @@ pipelines:
           pull-code:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-  - Publisher-1:
+              - exec:
+                  command: echo
+                  run_if: passed
+
+  Publisher-1:
     group: Combination-Pipelines-Example
     label_template: ${COUNT}
     lock_behavior: none
@@ -37,7 +40,7 @@ pipelines:
         pipeline: Codebase
         stage: pull-code
     stages:
-    - build:
+      build:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -48,10 +51,10 @@ pipelines:
           build:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - static-analysis:
+              - exec:
+                  command: echo
+                  run_if: passed
+      static-analysis:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -62,10 +65,10 @@ pipelines:
           static-analysis:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - run-unit-tests:
+              - exec:
+                  command: echo
+                  run_if: passed
+      run-unit-tests:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -76,10 +79,10 @@ pipelines:
           run-unit-tests:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - run-integration-tests:
+              - exec:
+                  command: echo
+                  run_if: passed
+      run-integration-tests:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -90,10 +93,11 @@ pipelines:
           run-integration-tests:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-  - Subscriber-1:
+              - exec:
+                  command: echo
+                  run_if: passed
+
+  Subscriber-1:
     group: Combination-Pipelines-Example
     label_template: ${COUNT}
     lock_behavior: none
@@ -104,7 +108,7 @@ pipelines:
         pipeline: Codebase
         stage: pull-code
     stages:
-    - build:
+      build:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -115,10 +119,10 @@ pipelines:
           build:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - static-analysis:
+              - exec:
+                  command: echo
+                  run_if: passed
+      static-analysis:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -129,10 +133,10 @@ pipelines:
           static-analysis:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - run-unit-tests:
+              - exec:
+                  command: echo
+                  run_if: passed
+      run-unit-tests:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -143,10 +147,10 @@ pipelines:
           run-unit-tests:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - run-integration-tests:
+              - exec:
+                  command: echo
+                  run_if: passed
+      run-integration-tests:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -157,10 +161,11 @@ pipelines:
           run-integration-tests:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-  - Subscriber-2:
+              - exec:
+                  command: echo
+                  run_if: passed
+
+  Subscriber-2:
     group: Combination-Pipelines-Example
     label_template: ${COUNT}
     lock_behavior: none
@@ -171,7 +176,7 @@ pipelines:
         pipeline: Codebase
         stage: pull-code
     stages:
-    - build:
+      build:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -182,10 +187,10 @@ pipelines:
           build:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - static-analysis:
+              - exec:
+                  command: echo
+                  run_if: passed
+      static-analysis:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -196,10 +201,10 @@ pipelines:
           static-analysis:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - run-unit-tests:
+              - exec:
+                  command: echo
+                  run_if: passed
+      run-unit-tests:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -210,10 +215,10 @@ pipelines:
           run-unit-tests:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - run-integration-tests:
+              - exec:
+                  command: echo
+                  run_if: passed
+      run-integration-tests:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -224,25 +229,26 @@ pipelines:
           run-integration-tests:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-  - SIT-for-Feature-A:
+              - exec:
+                  command: echo
+                  run_if: passed
+
+  SIT-for-Feature-A:
     group: Combination-Pipelines-Example
     label_template: ${COUNT}
     lock_behavior: none
     display_order: 0
     materials:
-      - Publisher-1:
+      Publisher-1:
         ignore_for_scheduling: false
         pipeline: Publisher-1
         stage: run-integration-tests
-      - Subscriber-1:
+      Subscriber-1:
         ignore_for_scheduling: false
         pipeline: Subscriber-1
         stage: run-integration-tests
     stages:
-    - deploy-to-Test-Env:
+      deploy-to-Test-Env:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -253,10 +259,10 @@ pipelines:
           deploy-to-Test-Env:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-    - run-SIT-tests:
+              - exec:
+                  command: echo
+                  run_if: passed
+      run-SIT-tests:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -267,25 +273,26 @@ pipelines:
           run-SIT-tests:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
-  - To-Staging:
+              - exec:
+                  command: echo
+                  run_if: passed
+
+  To-Staging:
     group: Combination-Pipelines-Example
     label_template: ${COUNT}
     lock_behavior: none
     display_order: 1
     materials:
-      - SIT-for-Feature-A:
+      SIT-for-Feature-A:
         ignore_for_scheduling: false
         pipeline: SIT-for-Feature-A
         stage: run-SIT-tests
-      - Subscriber-2:
+      Subscriber-2:
         ignore_for_scheduling: false
         pipeline: Subscriber-2
         stage: run-integration-tests
     stages:
-    - deploy-to-Staging:
+      deploy-to-Staging:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -296,6 +303,6 @@ pipelines:
           deploy-to-Staging:
             timeout: 0
             tasks:
-            - exec:
-                command: echo
-                run_if: passed
+              - exec:
+                  command: echo
+                  run_if: passed
