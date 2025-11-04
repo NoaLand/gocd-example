@@ -1,7 +1,7 @@
 # Pipeline Showcase – GoCD “Pipeline as Code” Composition Example
 
 ## Overview  
-This repository demonstrates a **composed pipeline architecture** built with GoCD’s “Pipelines as Code” capability. The aim is to illustrate how multiple pipelines can be structured and orchestrated to form **fan-in** and **fan-out** workflows, and how GoCD visualises those relationships via its Value Stream Map (VSM).
+This repository demonstrates a **composed pipeline architecture** built with [GoCD](https://www.gocd.org)’s “Pipelines as Code” capability. The aim is to illustrate how multiple pipelines can be structured and orchestrated to form **fan-in** and **fan-out** workflows, and how GoCD visualises those relationships via its Value Stream Map (VSM).
 
 ## Why this demo matters  
 - GoCD supports defining pipelines via version-controlled configuration files (YAML/JSON) through its config-repo feature.  
